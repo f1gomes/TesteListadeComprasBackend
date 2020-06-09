@@ -21,13 +21,20 @@
         ID serial primary key, 
         nome varchar(50) not null, 
         quantidade int not null default 0, 
-        comprado boolean not null default false, 
+        comprado boolean not null default false
     )
  `;
 
- pool.query (sqlCreate, function(error, result){
-    if(error)
+ pool.query(sqlCreate, function(error, result) {
+     if (error)
         throw error
-    console.log('Tabela criada com sucesso!')
+
+    console.log('Tabela criada com sucesso!');
  });
 
+ function create () {
+    const sql = ` INSERT INTO listacompras (nome, quantidade)
+                        VALUES('arroz', 10)`;
+    const result = pool.query(sql);
+    console.log(result.rowCount);
+ }
