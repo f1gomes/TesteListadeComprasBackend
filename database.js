@@ -15,4 +15,20 @@
      ssl:{ rejectUnauthorized:false}
  });
 
- pool.query('sql',[], function(error, result){});
+ const sqlCreate = `
+    CREATE TABLE IF NOT EXISTS listacompras
+    (
+        ID serial primary key, 
+        nome varchar(50) not null, 
+        quantidade  int not null default 0, 
+        comprado boolean not null default false, 
+
+    )
+ `;
+
+ pool.query(sqlCreate, function(error, result){
+    if(error)
+        throw error
+    console.log('Tabela criada com sucesso!')
+ });
+
