@@ -24,17 +24,28 @@
         comprado boolean not null default false
     )
  `;
-
- pool.query(sqlCreate, function(error, result) {
+//comentei o comando de criar tabela, uma vez que as tabelas devem ser criadas uma unica vez.
+ /*pool.query(sqlCreate, function(error, result) {
      if (error)
         throw error
 
     console.log('Tabela criada com sucesso!');
- });
+ });*/
 
- function create () {
+ async function create () {
     const sql = ` INSERT INTO listacompras (nome, quantidade)
-                        VALUES('arroz', 10)`;
-    const result = pool.query(sql);
-    console.log(result.rowCount);
- }
+                        VALUES ('Feijão', 2)`;
+
+    const result = await pool.query(sql);
+    return result.rowCount;
+ };
+
+ //create();
+
+async function read() {
+    const sql = 'SELECT * FROM listacompras'
+    const result = await pool.query(sql);
+    return result.rows;
+}
+module.exports = create;
+module.exports = read;
