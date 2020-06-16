@@ -7,10 +7,10 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-server.get ('/', function (request, response) {
-    const dados = database.read();
+server.get ('/', async function (request, response) {
+    const dados = await database.read();
     return response.json(dados);
-})
+});
 
 server.post('/', async function(request,response){
 
@@ -22,7 +22,7 @@ server.post('/', async function(request,response){
 
 server.put('/:id',async function(request, response){
     const id = request.params.id;
-    const comprado = requst.body.comprado;
+    const comprado = request.body.comprado;
     const result = await database.update(id, comprado);
     return response.status(200).send();
 })
