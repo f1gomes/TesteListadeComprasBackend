@@ -1,6 +1,6 @@
 //yarn add pg 
 
- const Pool = require ('pg').Pool;
+ const Pool = require('pg').Pool;
 
  // 1 abre conexao
  // 2 executa comandos SQl (select,insert...)
@@ -32,20 +32,31 @@
     console.log('Tabela criada com sucesso!');
  });*/
 
- async function create () {
-    const sql = ` INSERT INTO listacompras (nome, quantidade)
-                        VALUES ('Feijão', 2)`;
+ module.exports = {
 
-    const result = await pool.query(sql);
+ async create (nome, quantidade) {
+    const sql = ` INSERT INTO listacompras (nome, quantidade)
+                        VALUES ($1, $2)`;
+
+    const result = await pool.query(sql, [nome, quantidade]);
     return result.rowCount;
- };
+ },
 
  //create();
 
-async function read() {
-    const sql = 'SELECT * FROM listacompras'
+async read() {
+    const sql = 'SELECT * FROM listacompras order by nome'
     const result = await pool.query(sql);
     return result.rows;
+},
+async update(id, comprado$){
+    const sql = `UPDATE listacompras SET comprado = $1 WHERE ID = $2`;
+    const result = await pool.query(sql,[comprado,id]);
+    return result.rowCount;
+},
+async delete(id){
+    const sql = `DELETE FROM listacompras WHERE ID = $1`;
+    result = await pool.query(sql,[id]);
+    return result.rowCount;
+},
 }
-module.exports = create;
-module.exports = read;
